@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transactions",
+  "info": {
+    "singularName": "transaction",
+    "pluralName": "transactions",
+    "displayName": "Transaction",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "transaction_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::transaction-detail.transaction-detail",
+      "mappedBy": "transaction"
+    },
+    "payment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::payment.payment",
+      "inversedBy": "transaction"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "waiting_payment",
+        "packing",
+        "shipping"
+      ]
+    }
+  }
+}

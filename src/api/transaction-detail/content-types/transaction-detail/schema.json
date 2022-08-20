@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transaction_details",
+  "info": {
+    "singularName": "transaction-detail",
+    "pluralName": "transaction-details",
+    "displayName": "Transaction Detail"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "transaction_details"
+    },
+    "transaction": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::transaction.transaction",
+      "inversedBy": "transaction_details"
+    }
+  }
+}
