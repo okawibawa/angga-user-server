@@ -44,12 +44,9 @@
       "inversedBy": "products"
     },
     "image": {
-      "allowedTypes": [
-        "images"
-      ],
+      "allowedTypes": ["images"],
       "type": "media",
-      "multiple": true,
-      "private": true
+      "multiple": true
     }
   }
 }
