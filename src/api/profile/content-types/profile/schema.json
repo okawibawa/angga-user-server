@@ -20,6 +20,15 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "mappedBy": "profile"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "postal_code": {
+      "type": "string"
     }
   }
 }
