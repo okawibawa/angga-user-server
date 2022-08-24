@@ -67,7 +67,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::profile.profile",
-      "inversedBy": "users_permissions_user"
+      "inversedBy": "user"
+    },
+    "address": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
