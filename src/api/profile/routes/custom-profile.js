@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/profile-detail/:id",
+      path: "/profile-detail/:full_name",
       handler: "profile.getProfileDetail",
       config: {
         policies: [],

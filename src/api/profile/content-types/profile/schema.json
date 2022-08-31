@@ -29,6 +29,12 @@
     },
     "postal_code": {
       "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "regency": {
+      "type": "string"
     }
   }
 }

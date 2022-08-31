@@ -8,15 +8,13 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::profile.profile", () => ({
   async getProfileDetail(ctx) {
-    const { id } = ctx.params;
+    const { full_name } = ctx.params;
 
     ctx.query = {
       ...ctx.query,
       filters: {
-        user: {
-          id: {
-            $eq: id,
-          },
+        full_name: {
+          $eq: full_name,
         },
       },
       populate: {
@@ -38,8 +36,14 @@ module.exports = createCoreController("api::profile.profile", () => ({
       "users-permissions"
     ].controllers.auth.register(ctx);
 
+    console.log({ ctx: ctx.response.body.user });
+
     context.request.body = {
-      data: { address: "", user: ctx.response.body.user.id },
+      data: {
+        address: "",
+        full_name: ctx.response.body.user.username,
+        user: ctx.response.body.user.id,
+      },
     };
 
     const profile = await super.create(context);
