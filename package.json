@@ -15,7 +15,8 @@
     "@strapi/plugin-users-permissions": "4.3.4",
     "@strapi/provider-upload-cloudinary": "^4.3.4",
     "@strapi/strapi": "4.3.4",
-    "mysql": "2.18.1"
+    "mysql": "2.18.1",
+    "xendit-node": "^1.21.6"
   },
   "author": {
     "name": "A Strapi developer"

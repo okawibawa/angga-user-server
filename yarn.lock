@@ -10309,6 +10309,13 @@ xdg-basedir@^4.0.0:
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
   integrity sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==
 
+xendit-node@^1.21.6:
+  version "1.21.6"
+  resolved "https://registry.yarnpkg.com/xendit-node/-/xendit-node-1.21.6.tgz#77f28063ed9be85c3d3ac6bc8b4ddc95d85ef89d"
+  integrity sha512-BP6K9sXzaHBdSr/BItD+0w+ntM/jDGTsihy73rk8FkvgHRuY6e7TIEoppOrGPll8CIqIJleVWRi+WwFTae2cQQ==
+  dependencies:
+    node-fetch "^2.6.1"
+
 xregexp@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-2.0.0.tgz#52a63e56ca0b84a7f3a5f3d61872f126ad7a5943"
