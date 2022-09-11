@@ -31,6 +31,12 @@
         "packing",
         "shipping"
       ]
+    },
+    "profile": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::profile.profile",
+      "inversedBy": "transactions"
     }
   }
 }

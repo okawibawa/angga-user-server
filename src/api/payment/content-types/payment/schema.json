@@ -21,6 +21,9 @@
       "relation": "oneToOne",
       "target": "api::transaction.transaction",
       "mappedBy": "payment"
+    },
+    "xendit_va_object": {
+      "type": "json"
     }
   }
 }
