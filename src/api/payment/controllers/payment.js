@@ -32,8 +32,14 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
       body: { productId },
     } = ctx.request;
 
-    const fixedVA = await va.createFixedVA(body);
+    const {
+      body: {
+        user
+      }
+    } = ctx.request;
 
+    const fixedVA = await va.createFixedVA(body);
+    
     ctx.request.body = {
       data: {
         transaction: null,
@@ -48,9 +54,11 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
       data: {
         status: "waiting_payment",
         payment: payment.data.id,
-        profile: null,
+        profile: user,
       },
     };
+    
+    console.log({ body: ctx.request.body })
 
     const transaction = await strapi
       .controller("api::transaction.transaction")
