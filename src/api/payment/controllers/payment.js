@@ -27,17 +27,26 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
   },
 
   async xenditCreateVa(ctx) {
-    const { body } = ctx.request;
+    let { body } = ctx.request;
     const {
       body: { productId },
     } = ctx.request;
-
     const {
       body: {
         user
       }
     } = ctx.request;
-
+    const {
+      body: {
+        qty
+      }
+    } = ctx.request
+     
+    body = {
+      ...body,
+      expirationDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+    }
+    
     const fixedVA = await va.createFixedVA(body);
     
     ctx.request.body = {
@@ -57,8 +66,6 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
         profile: user,
       },
     };
-    
-    console.log({ body: ctx.request.body })
 
     const transaction = await strapi
       .controller("api::transaction.transaction")
@@ -68,6 +75,7 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
       data: {
         product: productId,
         transaction: transaction.data.id,
+        qty: String(qty)
       },
     };
 
