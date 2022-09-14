@@ -41,6 +41,12 @@
       "relation": "oneToMany",
       "target": "api::transaction.transaction",
       "mappedBy": "profile"
+    },
+    "carts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cart.cart",
+      "mappedBy": "profile"
     }
   }
 }

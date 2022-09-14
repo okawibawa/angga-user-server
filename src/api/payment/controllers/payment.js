@@ -32,23 +32,19 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
       body: { productId },
     } = ctx.request;
     const {
-      body: {
-        user
-      }
+      body: { user },
     } = ctx.request;
     const {
-      body: {
-        qty
-      }
-    } = ctx.request
-     
+      body: { qty },
+    } = ctx.request;
+
     body = {
       ...body,
       expirationDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-    }
-    
+    };
+
     const fixedVA = await va.createFixedVA(body);
-    
+
     ctx.request.body = {
       data: {
         transaction: null,
@@ -75,7 +71,7 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
       data: {
         product: productId,
         transaction: transaction.data.id,
-        qty: String(qty)
+        qty: String(qty),
       },
     };
 
