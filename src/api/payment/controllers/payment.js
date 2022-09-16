@@ -66,18 +66,25 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
     const transaction = await strapi
       .controller("api::transaction.transaction")
       .create(ctx);
+    
+    console.log({ productId })
+    console.log({ qty })
+    
+    for (let i = 0; i < productId.length; i++) {      
+      ctx.request.body = {
+        data: {
+          product: productId[i],
+          transaction: transaction.data.id,
+          qty: String(qty[i]),
+        },
+      };
+      
+      console.log({ ctx: ctx.request.body })
 
-    ctx.request.body = {
-      data: {
-        product: productId,
-        transaction: transaction.data.id,
-        qty: String(qty),
-      },
-    };
-
-    const transaction_detail = await strapi
-      .controller("api::transaction-detail.transaction-detail")
-      .create(ctx);
+      const transaction_detail = await strapi
+        .controller("api::transaction-detail.transaction-detail")
+        .create(ctx);
+    }
 
     return payment;
   },
