@@ -78,12 +78,31 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
           qty: String(qty[i]),
         },
       };
-      
-      console.log({ ctx: ctx.request.body })
 
       const transaction_detail = await strapi
         .controller("api::transaction-detail.transaction-detail")
         .create(ctx);
+    }
+    
+    ctx.query = {
+      ...ctx.query,
+      filters: {
+        profile: {
+          id: {
+            $eq: user
+          }
+        }
+      }
+    }
+    
+    const carts = await strapi.controller("api::cart.cart").find(ctx)
+    
+    console.log(carts.data)
+    
+    for (let i = 0; i < carts.data.length; i++) { 
+      ctx.params = { id: carts.data[i].id }
+      
+      const cartsDelete = await strapi.controller("api::cart.cart").delete(ctx)
     }
 
     return payment;
