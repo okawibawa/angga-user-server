@@ -11,6 +11,14 @@ module.exports = {
       },
     },
     {
+      method: "POST",
+      path: "/xendit/create-invoice",
+      handler: "payment.createInvoice",
+      config: {
+        policies: [],
+      },
+    },
+    {
       method: "GET",
       path: "/xendit/get-va",
       handler: "payment.xenditVa",

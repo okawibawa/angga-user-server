@@ -11,9 +11,10 @@ const x = new Xendit({
     "xnd_development_URrf17t6hhUNJTzSR7cxGpQSnhKirmLQndQehhKsqNeycsy1ZJoFFQDjLaxAO",
   xenditURL: "https://api.xendit.co",
 });
-const { VirtualAcc } = x;
+const { VirtualAcc, Invoice } = x;
 
 const va = new VirtualAcc({});
+const i = new Invoice({})
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -24,6 +25,19 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
     const entities = banks.filter((bank) => bank.is_activated === true);
 
     return entities;
+  },
+  
+  async createInvoice(ctx) {
+    const { body: { amount }} = ctx.request;
+
+    const invoice = await i.createInvoice({
+      externalID: 'your-external-id',
+      payerEmail: 'putra@gmail.com',
+      description: 'Pembayaran UD. Putra',
+      amount: amount,
+    });
+    
+    return invoice;
   },
 
   async xenditCreateVa(ctx) {
