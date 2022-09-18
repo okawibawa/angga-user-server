@@ -28,8 +28,20 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
   },
   
   async createInvoice(ctx) {
-    const { body: { amount }} = ctx.request;
-
+    const { body: { productId, qty, amount }} = ctx.request;
+    
+    for (let i = 0; i < productId.length; i++) {
+      ctx.params = { id: productId[i] }
+    
+      const product = await strapi.controller("api::product.product").findOne(ctx)
+    
+      const currStock = Number(product.data.attributes.stock) - Number(qty[i])
+    
+      ctx.request.body = { data: { stock: String(currStock) } }
+    
+      const productUpdate = await strapi.controller("api::product.product").update(ctx)
+    }
+    
     const invoice = await i.createInvoice({
       externalID: 'your-external-id',
       payerEmail: 'putra@gmail.com',
