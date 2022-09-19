@@ -13,4 +13,22 @@ module.exports = ({ env }) => ({
       },
     },
   },
+  email: {
+    config: {
+      provider: "nodemailer",
+      providerOptions: {
+        host: "smtp-relay.sendinblue.com",
+        port: 587,
+        auth: {
+          user: "wewinexo@gmail.com",
+          pass: "ISBdOHnJKaRYr5j0",
+        },
+        // ... any custom nodemailer options
+      },
+      settings: {
+        defaultFrom: "hello@example.com",
+        defaultReplyTo: "hello@example.com",
+      },
+    },
+  },
 });

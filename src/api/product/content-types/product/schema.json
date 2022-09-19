@@ -22,9 +22,6 @@
     "stock": {
       "type": "string"
     },
-    "description": {
-      "type": "string"
-    },
     "price": {
       "type": "string"
     },

@@ -26,5 +26,21 @@ module.exports = {
         policies: [],
       },
     },
+    {
+      method: "POST",
+      path: "/email/forgot-password",
+      handler: "profile.forgotPassword",
+      config: {
+        policies: [],
+      },
+    },
+    {
+      method: "POST",
+      path: "/email/reset-password",
+      handler: "profile.resetPassword",
+      config: {
+        policies: [],
+      },
+    },
   ],
 };
