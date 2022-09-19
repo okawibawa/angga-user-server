@@ -44,17 +44,21 @@
       "inversedBy": "products"
     },
     "image": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "carts": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cart.cart",
       "mappedBy": "product"
+    },
+    "desc": {
+      "type": "richtext"
     }
   }
 }
