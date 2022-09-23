@@ -47,6 +47,11 @@
       "relation": "oneToMany",
       "target": "api::cart.cart",
       "mappedBy": "profile"
+    },
+    "ro_regency": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::regency.regency"
     }
   }
 }

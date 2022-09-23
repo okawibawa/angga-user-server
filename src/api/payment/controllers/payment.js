@@ -4,6 +4,11 @@
  *  payment controller
  */
 
+const RajaOngkir = require("rajaongkir-nodejs").Starter(
+  "076d7d238547dbf14eb3b7e1f7044096"
+);
+
+const rajaongkir = require("rajaongkir-nodejs/lib/rajaongkir");
 const Xendit = require("xendit-node");
 const { createAuthorization } = require("xendit-node/src/card/authorization");
 const x = new Xendit({
@@ -14,7 +19,7 @@ const x = new Xendit({
 const { VirtualAcc, Invoice } = x;
 
 const va = new VirtualAcc({});
-const i = new Invoice({})
+const i = new Invoice({});
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -26,29 +31,51 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
 
     return entities;
   },
-  
+
+  async calculateCost(ctx) {
+    const { id } = ctx.params
+
+    console.log({ id })
+
+    const body = {
+      origin: 17,
+      destination: Number(id),
+      weight: 2000,
+    };
+
+    const ongkir = RajaOngkir.getJNECost(body);
+
+    return ongkir;
+  },
+
   async createInvoice(ctx) {
-    const { body: { productId, qty, amount }} = ctx.request;
-    
+    const {
+      body: { productId, qty, amount },
+    } = ctx.request;
+
     for (let i = 0; i < productId.length; i++) {
-      ctx.params = { id: productId[i] }
-    
-      const product = await strapi.controller("api::product.product").findOne(ctx)
-    
-      const currStock = Number(product.data.attributes.stock) - Number(qty[i])
-    
-      ctx.request.body = { data: { stock: String(currStock) } }
-    
-      const productUpdate = await strapi.controller("api::product.product").update(ctx)
+      ctx.params = { id: productId[i] };
+
+      const product = await strapi
+        .controller("api::product.product")
+        .findOne(ctx);
+
+      const currStock = Number(product.data.attributes.stock) - Number(qty[i]);
+
+      ctx.request.body = { data: { stock: String(currStock) } };
+
+      const productUpdate = await strapi
+        .controller("api::product.product")
+        .update(ctx);
     }
-    
+
     const invoice = await i.createInvoice({
-      externalID: 'your-external-id',
-      payerEmail: 'putra@gmail.com',
-      description: 'Pembayaran UD. Putra',
+      externalID: "your-external-id",
+      payerEmail: "putra@gmail.com",
+      description: "Pembayaran UD. Putra",
       amount: amount,
     });
-    
+
     return invoice;
   },
 
@@ -92,11 +119,11 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
     const transaction = await strapi
       .controller("api::transaction.transaction")
       .create(ctx);
-    
-    console.log({ productId })
-    console.log({ qty })
-    
-    for (let i = 0; i < productId.length; i++) {      
+
+    console.log({ productId });
+    console.log({ qty });
+
+    for (let i = 0; i < productId.length; i++) {
       ctx.request.body = {
         data: {
           product: productId[i],
@@ -109,26 +136,26 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
         .controller("api::transaction-detail.transaction-detail")
         .create(ctx);
     }
-    
+
     ctx.query = {
       ...ctx.query,
       filters: {
         profile: {
           id: {
-            $eq: user
-          }
-        }
-      }
-    }
-    
-    const carts = await strapi.controller("api::cart.cart").find(ctx)
-    
-    console.log(carts.data)
-    
-    for (let i = 0; i < carts.data.length; i++) { 
-      ctx.params = { id: carts.data[i].id }
-      
-      const cartsDelete = await strapi.controller("api::cart.cart").delete(ctx)
+            $eq: user,
+          },
+        },
+      },
+    };
+
+    const carts = await strapi.controller("api::cart.cart").find(ctx);
+
+    console.log(carts.data);
+
+    for (let i = 0; i < carts.data.length; i++) {
+      ctx.params = { id: carts.data[i].id };
+
+      const cartsDelete = await strapi.controller("api::cart.cart").delete(ctx);
     }
 
     return payment;

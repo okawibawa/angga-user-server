@@ -3,6 +3,14 @@
 module.exports = {
   routes: [
     {
+      method: "GET",
+      path: "/ongkir/hitung/:id",
+      handler: "payment.calculateCost",
+      config: {
+        policies: [],
+      },
+    },
+    {
       method: "POST",
       path: "/xendit/create-va",
       handler: "payment.xenditCreateVa",

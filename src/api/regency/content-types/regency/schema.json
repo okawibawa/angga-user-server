@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "regencies",
+  "info": {
+    "singularName": "regency",
+    "pluralName": "regencies",
+    "displayName": "Regency"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "city_id": {
+      "type": "integer"
+    },
+    "city": {
+      "type": "string"
+    }
+  }
+}
