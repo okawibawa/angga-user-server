@@ -221,9 +221,39 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
   },
 
   async xenditCallback(ctx) {
+    // const callbackToken = '9WWZydr9mltTVRNsrNjLyiawiQGFnp07szz0dZTqDJNuwP4P'
+
+    const transactionId = ctx.request.body.id
+    const transactionBody = ctx.request.body
+
+    ctx.query = {
+      ...ctx.query,
+      pagination: {
+        limit: -1
+      }
+    }
+
+    const payment = await super.find(ctx)
+
+    const currPayment = payment.data.filter((payment) => payment.attributes.xendit_va_object.id === transactionId)
+
+    ctx.params = { id: currPayment[0].id }
+
+    ctx.request.body = {
+      data: {
+        is_paid: true,
+        xendit_va_object: transactionBody
+      }
+    }
+
+    console.log({ params: ctx.params })
+    console.log({ body: ctx.request.body })
+
+    const updatedPayment = await super.update(ctx)
+
     return ctx.send(
       {
-        message: "Body received",
+        message: "payment updated",
       },
       200
     );
