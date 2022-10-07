@@ -50,7 +50,7 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
 
   async createInvoice(ctx) {
     const {
-      body: { productId, qty, amount },
+      body: { productId, qty, user, amount, courier },
     } = ctx.request;
 
     for (let i = 0; i < productId.length; i++) {
@@ -76,6 +76,63 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
       amount: amount,
     });
 
+    ctx.request.body = {
+      data: {
+        transaction: null,
+        is_paid: null,
+        xendit_va_object: invoice,
+      }
+    }
+
+    // create payment entry
+    const payment = await super.create(ctx)
+
+    ctx.request.body = {
+      data: {
+        status: "pending",
+        payment: payment.data.id,
+        profile: user,
+        courier: courier
+      },
+    };
+
+    const transaction = await strapi
+      .controller("api::transaction.transaction")
+      .create(ctx);
+
+    for (let i = 0; i < productId.length; i++) {
+      ctx.request.body = {
+        data: {
+          product: productId[i],
+          transaction: transaction.data.id,
+          qty: String(qty[i]),
+        },
+      };
+
+      const transaction_detail = await strapi
+        .controller("api::transaction-detail.transaction-detail")
+        .create(ctx);
+    }
+
+    ctx.query = {
+      ...ctx.query,
+      filters: {
+        profile: {
+          id: {
+            $eq: user,
+          },
+        },
+      },
+    };
+
+    const carts = await strapi.controller("api::cart.cart").find(ctx);
+
+    for (let i = 0; i < carts.data.length; i++) {
+      ctx.params = { id: carts.data[i].id };
+
+      const cartsDelete = await strapi.controller("api::cart.cart").delete(ctx);
+    }
+
     return invoice;
   },
 
@@ -84,9 +141,11 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
     const {
       body: { productId },
     } = ctx.request;
+
     const {
       body: { user },
     } = ctx.request;
+
     const {
       body: { qty },
     } = ctx.request;
@@ -110,7 +169,7 @@ module.exports = createCoreController("api::payment.payment", ({ strapi }) => ({
 
     ctx.request.body = {
       data: {
-        status: "waiting_payment",
+        status: "pending",
         payment: payment.data.id,
         profile: user,
       },

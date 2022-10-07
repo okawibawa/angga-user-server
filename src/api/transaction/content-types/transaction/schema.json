@@ -27,7 +27,7 @@
     "status": {
       "type": "enumeration",
       "enum": [
-        "waiting_payment",
+        "pending",
         "packing",
         "shipping"
       ]
@@ -37,6 +37,9 @@
       "relation": "manyToOne",
       "target": "api::profile.profile",
       "inversedBy": "transactions"
+    },
+    "courier": {
+      "type": "json"
     }
   }
 }
