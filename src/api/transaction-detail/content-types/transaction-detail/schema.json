@@ -26,6 +26,10 @@
     },
     "qty": {
       "type": "string"
+    },
+    "is_rate": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
